@@ -19,9 +19,9 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api\Wow\Call\Data\Character;
+namespace BattleNet\Api\Wow\Call\Data\Character;
 
-use Khepri\BattleNet\Api\AbstractCall;
+use BattleNet\Api\AbstractCall;
 
 /**
  * Call for the WoW Data Character Races Api

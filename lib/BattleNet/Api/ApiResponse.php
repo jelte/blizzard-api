@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api;
+namespace BattleNet\Api;
 
 /**
  * The basic API response class.

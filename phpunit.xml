@@ -16,7 +16,7 @@
 
 	<testsuites>
 		<testsuite name="Core">
-			<directory>tests/Khepri/Tests/</directory>
+			<directory>tests/BattleNet/Tests/</directory>
 		</testsuite>
 	</testsuites>
 

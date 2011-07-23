@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api;
+namespace BattleNet\Api;
 
 /**
  * Primary Call class that all children source API Calls extend. Provides functionality for

@@ -19,9 +19,11 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api;
+namespace BattleNet\Api;
 
 use Doctrine\Common\Cache\Cache;
+
+use InvalidArgumentException;
 
 /**
  * Primary API class that all children source APIs extend. Provides functionality for
@@ -38,7 +40,7 @@ abstract class AbstractApi
     /**
      * Identification for this library
      */
-    const USER_AGENT = 'Khepri\'s Battle.net API'; 
+    const USER_AGENT = 'PHP Battle.net API'; 
     
 	/**
 	 * Official WoW API URL.
@@ -223,11 +225,11 @@ abstract class AbstractApi
 	{
 	    if ( $region ) {
     	    if ( !array_key_exists($region, $this->_regionWhitelist) ) {
-    	        throw new ApiException(sprintf('Region "%s" is not available.', $region));
+    	        throw new InvalidArgumentException(sprintf('Region "%s" is not available.', $region));
     	    }
     	    if ( $locale ) {
         	    if ( !in_array($locale, $this->_regionWhitelist[$region]) ) {
-        	        throw new ApiException(sprintf('Locale "%s" is not available for region "%s".', $locale, $region));
+        	        throw new InvalidArgumentException(sprintf('Locale "%s" is not available for region "%s".', $locale, $region));
         	    }
     	    }
 	    }
@@ -434,11 +436,7 @@ abstract class AbstractApi
      */
     private function _fromCache($cacheId)
     {
-        // check if a cache interface is set
-        if ( isset($this->_cache) ) {
-            return $this->_cache->fetch($cacheId);
-        }
-        return null;
+        return $this->_cache->fetch($cacheId);
     }
     
     /**

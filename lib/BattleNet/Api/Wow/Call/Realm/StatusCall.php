@@ -19,9 +19,9 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api\Wow\Call\Realm;
+namespace BattleNet\Api\Wow\Call\Realm;
 
-use Khepri\BattleNet\Api\AbstractCall;
+use BattleNet\Api\AbstractCall;
 
 /**
  * Call for the WoW Realm Status Api

@@ -19,16 +19,16 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api\Wow;
+namespace BattleNet\Api\Wow;
 
-use Khepri\BattleNet\Api\AbstractApi;
+use BattleNet\Api\AbstractApi;
 
-use Khepri\BattleNet\Api\Wow\Call\CharacterCall;
-use Khepri\BattleNet\Api\Wow\Call\Data\ItemCall;
-use Khepri\BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
-use Khepri\BattleNet\Api\Wow\Call\Data\Character\RacesCall;
-use Khepri\BattleNet\Api\Wow\Call\GuildCall;
-use Khepri\BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
+use BattleNet\Api\Wow\Call\CharacterCall;
+use BattleNet\Api\Wow\Call\Data\ItemCall;
+use BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
+use BattleNet\Api\Wow\Call\Data\Character\RacesCall;
+use BattleNet\Api\Wow\Call\GuildCall;
+use BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
 
 
 /**

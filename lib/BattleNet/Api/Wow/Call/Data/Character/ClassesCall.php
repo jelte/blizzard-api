@@ -19,69 +19,24 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api\Wow\Call\Data;
+namespace BattleNet\Api\Wow\Call\Data\Character;
 
-use Khepri\BattleNet\Api\AbstractCall;
-use Khepri\BattleNet\Api\ApiException;
+use BattleNet\Api\AbstractCall;
 
 /**
- * Call for the WoW Data Item Api
+ * Call for the WoW Data Character Classes Api
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
  */
-class ItemCall
+class ClassesCall
     extends AbstractCall
 {
     /**
-     * Path for the Data Item Call
+     * Path for the Data Character Classes Call
      * 
      * @access protected
      * @var string
      */
-    protected $_path = 'data/item/{itemid}';
-    
-    /**
-     * Id of the requested item
-     * 
-     * @access protected
-     * @var integer
-     */
-    protected $itemid;
-    
-    /**
-     * Constructor 
-     * 
-     * @access public
-     * @param integer $itemid
-     * @return void
-     */
-    public function __construct($itemid)
-    {
-        $this->setItemid($itemid);
-    }
-    
-    /**
-     * (non-PHPdoc)
-     * @see lib/Khepri/BattleNet/Api/Khepri\BattleNet\Api.AbstractCall::getPath()
-     */
-    public function getPath()
-    {
-        return str_replace('{itemid}',$this->itemid, $this->_path);
-    }
-    
-    /**
-     * Set the itemid
-     * 
-     * @access public
-     * @param $itemid
-     * @throws ApiException when the itemid is empty or not numeric
-     */
-    public function setItemid($itemid)
-    {
-        if (empty($itemid) || !is_numeric($itemid)) {
-			throw new ApiException(sprintf('Item ID %s invalid for %s.', $itemid, __Class__));
-		}
-        $this->itemid = $itemid;
-    }
+    protected $_path = 'data/character/classes';
 }

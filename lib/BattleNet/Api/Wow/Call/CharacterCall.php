@@ -19,18 +19,19 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api\Wow\Call;
+namespace BattleNet\Api\Wow\Call;
 
-use Khepri\BattleNet\Api\ApiException;
-use Khepri\BattleNet\Api\AbstractCall;
+
+use BattleNet\Api\ApiException;
+use BattleNet\Api\AbstractCall;
 
 /**
- * Call for the WoW Guild Api
+ * Call for the WoW Character Api
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
  */
-class GuildCall
+class CharacterCall
     extends AbstractCall
 {
     /**
@@ -39,8 +40,8 @@ class GuildCall
      * @access protected
      * @var string
      */
-    protected $_path = 'guild/{realm}/{name}';
-        
+    protected $_path = 'character/{realm}/{name}';
+            
     /**
      * name of the realm
      * 
@@ -56,7 +57,7 @@ class GuildCall
      * @var string
      */
     protected $name;
-        
+            
     /**
      * allowed query parameters
      * 
@@ -70,9 +71,11 @@ class GuildCall
      * 
 	 * @access protected
      * @var array
-     * @see http://blizzard.github.com/api-wow-docs/#id3526372
+     * @see http://blizzard.github.com/api-wow-docs/#id3525224
      */
-    protected $_fieldsWhitelist = array('members','achievements');
+    protected $_fieldsWhitelist = array('guild','stats','talents','items','reputation','titles',
+    									'professions','appearance','companions','mounts','pets',
+    									'achievements','progression');
     
     /**
      * Constructor 
@@ -101,7 +104,7 @@ class GuildCall
         
         return $path;
     }
-    
+
     /**
      * Filter and set the realm name
      * 
@@ -113,7 +116,7 @@ class GuildCall
     {
         $this->realm = $this->filterQueryParamValue($realm);
     }
-            
+        
     /**
      * Filter and set the guild name
      * 
@@ -125,7 +128,7 @@ class GuildCall
     {
         $this->name = $this->filterQueryParamValue($name);
     }
-    
+        
     /**
      * Set the additional fields
      * 
@@ -134,7 +137,7 @@ class GuildCall
      * @return void
      * @throws ApiException when a field option is not recognized
      */
-    public function setFields(array $fields)
+    public function setFields($fields)
     {
         foreach ( $fields as $field ) {
             if ( !in_array($field, $this->_fieldsWhitelist) ) {

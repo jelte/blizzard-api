@@ -4,8 +4,9 @@ require_once __DIR__ . '/../vendor/symfony/lib/Symfony/Component/ClassLoader/Uni
 
 $loader = new UniversalClassLoader;
 $loader->registerNamespaces(array(
-    'Khepri' => __DIR__.'/../lib',
-    'Khepri\Tests' => __DIR__.'/../tests',
+    'BattleNet' => __DIR__.'/../lib',
+    'BattleNet\Tests' => __DIR__.'/../tests',
+    'Doctrine\Common' => __DIR__.'/../vendor/doctrine-common/lib'
 ));
 
 $loader->register();

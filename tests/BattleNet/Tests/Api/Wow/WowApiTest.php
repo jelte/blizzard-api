@@ -1,8 +1,10 @@
 <?php
-namespace Khepri\Tests\BattleNet\Api\Wow;
+namespace BattleNet\Tests\Api\Wow;
 
-use Khepri\BattleNet\Api\Wow\WowApi;
-use Khepri\Tests\TestCase;
+use Doctrine\Common\Cache\ArrayCache;
+
+use BattleNet\Api\Wow\WowApi;
+use Tests\TestCase;
 
 class WowApiTest
     extends \PHPUnit_Framework_TestCase
@@ -34,6 +36,16 @@ class WowApiTest
         return array(
                     array(71053),
                     array(71054)
+                );
+    }
+    
+    public function provideRegionAndLocaleData() {
+        return array(
+                    array('eu', 'en_GB'),
+                    array('us', 'en_US'),
+                    array('kr', 'ko_KR'),
+                    array('tw', 'zh_TW'),
+                    array('cn', 'zh_CN')
                 );
     }
     
@@ -135,4 +147,48 @@ class WowApiTest
          $this->assertObjectHasAttribute('name',$result->classes[0]);
     }
     
+    /**
+     * @test
+     * @todo assertions
+     */
+    public function GetClassesWithCache()
+    {
+        $client = new WowApi(array('region'=>'eu'));
+        $cache = new ArrayCache();
+        $cache->setNamespace('WowApi');
+        $client->setCache($cache);
+        
+        $result = $client->getClasses();
+        
+        $result2 = $client->getClasses();
+    }
+    
+    /**
+     * @test
+     * @dataProvider provideRegionAndLocaleData
+     */
+    public function SetRegionAndLocale($region, $locale)
+    {
+        $client = new WowApi(array('region'=>$region, 'locale'=>$locale));
+    }
+    
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Region "be" is not available.
+     */
+    public function BadRegion()
+    {
+        $client = new WowApi(array('region'=>'be'));
+    }
+    
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Locale "BE_nl" is not available for region "eu".
+     */
+    public function BadLocale()
+    {
+        $client = new WowApi(array('region'=>'eu','locale'=>'BE_nl'));
+    }
 }

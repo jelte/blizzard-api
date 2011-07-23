@@ -2,13 +2,13 @@
 
 // Autoloading
 use Symfony\Component\ClassLoader\UniversalClassLoader;
-use Khepri\BattleNet\Api\Wow\WowApi;
+use BattleNet\Api\Wow\WowApi;
 
 require_once __DIR__ . '/vendor/symfony/lib/Symfony/Component/ClassLoader/UniversalClassLoader.php';
 
 $loader = new UniversalClassLoader;
 $loader->registerNamespaces(array(
-    'Khepri' => __DIR__.'/lib'
+    'BattleNet' => __DIR__.'/lib'
 ));
 
 $loader->register();

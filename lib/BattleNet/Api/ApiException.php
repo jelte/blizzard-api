@@ -19,7 +19,7 @@
  * THE SOFTWARE.
  */
 
-namespace Khepri\BattleNet\Api;
+namespace BattleNet\Api;
 
 /**
  * Custom exception class for the API.
