@@ -54,26 +54,27 @@ This hasn't been implemented by Blizzard yet, but is in their examples already.
 	$wowApi->getItem($itemid);
 
 Caching
--------
+--------
 
 Currently there is no caching interface included in this source. But it is supported.
 To keep depenancies low, caching interfaces will be included, but for now you can use Doctrine Caching
 
 Use Doctrine Caching
-^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^
 
 to make use of the Doctrine Caching you will need to autoload doctrine-common
 and change AbstractApi:24
 
 	use Khepri\BattleNet\Cache\Cache;
 to
+
 	use Doctrine\Common\Cache\Cache;
-	
 Once you have changed this line you will be able to use any of the Doctrine Caching interfaces:
 
 	$cache = new \Doctrine\Common\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu', 'cache'=>$cache));
 or
+
 	$cache = new \Doctrine\Common\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu'));
 	$wowApi->setCache($cache);	
