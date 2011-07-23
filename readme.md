@@ -80,6 +80,7 @@ or
 
 Todo
 ----
+
 - Have the Api return Call specific responses. 
 when calling getGuild you should get a Guild object as response.
 when calling getItem you should get a Item object as response
