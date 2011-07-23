@@ -59,10 +59,7 @@ Caching
 Currently there is no caching interface included in this source. But it is supported.
 To keep depenancies low, caching interfaces will be included, but for now you can use Doctrine Caching
 
-Use Doctrine Caching
-^^^^^^^^^^^^^^^^^^^^^
-
-to make use of the Doctrine Caching you will need to autoload doctrine-common
+To make use of the Doctrine Caching you will need to autoload doctrine-common
 and change AbstractApi:24
 
 	use Khepri\BattleNet\Cache\Cache;
