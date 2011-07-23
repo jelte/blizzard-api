@@ -35,10 +35,7 @@ class CharacterCall
     extends AbstractCall
 {
     /**
-     * Path for the Guild Call
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $_path = 'character/{realm}/{name}';
             
@@ -59,10 +56,7 @@ class CharacterCall
     protected $name;
             
     /**
-     * allowed query parameters
-     * 
-     * @access protected
-     * @var array
+     * {@inheritdoc}
      */
     protected $_whitelist = array('fields');
     
@@ -93,9 +87,8 @@ class CharacterCall
         $this->setFields($fields);
     }
     
-    /**
-     * (non-PHPdoc)
-     * @see lib/Khepri/BattleNet/Api/AbstractCall::getPath()
+	/**
+     * {@inheritdoc}
      */
     public function getPath()
     {

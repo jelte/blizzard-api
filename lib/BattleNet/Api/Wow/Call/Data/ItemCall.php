@@ -22,7 +22,7 @@
 namespace BattleNet\Api\Wow\Call\Data;
 
 use BattleNet\Api\AbstractCall;
-use BattleNet\Api\ApiException;
+use InvalidArgumentException;
 
 /**
  * Call for the WoW Data Item Api
@@ -34,10 +34,7 @@ class ItemCall
     extends AbstractCall
 {
     /**
-     * Path for the Data Item Call
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $_path = 'data/item/{itemid}';
     
@@ -60,10 +57,9 @@ class ItemCall
     {
         $this->setItemid($itemid);
     }
-    
+
     /**
-     * (non-PHPdoc)
-     * @see lib/Khepri/BattleNet/Api/BattleNet\Api.AbstractCall::getPath()
+     * {@inheritdoc}
      */
     public function getPath()
     {
@@ -80,7 +76,7 @@ class ItemCall
     public function setItemid($itemid)
     {
         if (empty($itemid) || !is_numeric($itemid)) {
-			throw new ApiException(sprintf('Item ID %s invalid for %s.', $itemid, __Class__));
+			throw new InvalidArgumentException(sprintf('Item ID "%s" invalid for %s.', $itemid, __CLASS__));
 		}
         $this->itemid = $itemid;
     }

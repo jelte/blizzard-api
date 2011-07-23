@@ -34,10 +34,7 @@ class GuildCall
     extends AbstractCall
 {
     /**
-     * Path for the Guild Call
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $_path = 'guild/{realm}/{name}';
         
@@ -91,8 +88,7 @@ class GuildCall
     }
     
     /**
-     * (non-PHPdoc)
-     * @see lib/Khepri/BattleNet/Api/AbstractCall::getPath()
+     * {@inheritdoc}
      */
     public function getPath()
     {

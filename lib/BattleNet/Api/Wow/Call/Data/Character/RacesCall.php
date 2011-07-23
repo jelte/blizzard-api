@@ -33,10 +33,7 @@ class RacesCall
     extends AbstractCall
 {
     /**
-     * Path for the Data Character Races Call
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $_path = 'data/character/races';
 }

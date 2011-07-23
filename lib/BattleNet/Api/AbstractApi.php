@@ -21,7 +21,7 @@
 
 namespace BattleNet\Api;
 
-use Doctrine\Common\Cache\Cache;
+use BattleNet\Cache\Cache;
 
 use InvalidArgumentException;
 
@@ -153,7 +153,7 @@ abstract class AbstractApi
 	        if ( method_exists($this, $method) ) {
 	            $this->$method($value);
 	        } else {
-	            throw new ApiException('Unknown config parameter "'.$key.'"');
+	            throw new InvalidArgumentException('Unknown config parameter "'.$key.'"');
 	        }
 	    }
 	}
@@ -442,6 +442,7 @@ abstract class AbstractApi
     /**
      * Save a response in the cache
      *
+     * @access private
      * @param string $cacheId
      * @param ApiResponse $response
      * @return boolean TRUE if the entry was successfully stored in the cache, FALSE otherwise.
@@ -455,6 +456,13 @@ abstract class AbstractApi
         return false;
     }
     
+    /**
+     * Get the cache identifier for the $url
+     * 
+     * @access private
+     * @param string $url
+     * @return string
+     */
     private function _getCacheId($url)
     {
         return md5($url);

@@ -1,10 +1,8 @@
 <?php
 namespace BattleNet\Tests\Api\Wow;
 
-use Doctrine\Common\Cache\ArrayCache;
-
 use BattleNet\Api\Wow\WowApi;
-use Tests\TestCase;
+use BattleNet\Cache\ArrayCache;
 
 class WowApiTest
     extends \PHPUnit_Framework_TestCase
@@ -159,7 +157,7 @@ class WowApiTest
         $client->setCache($cache);
         
         $result = $client->getClasses();
-        
+
         $result2 = $client->getClasses();
     }
     
@@ -185,10 +183,35 @@ class WowApiTest
     /**
      * @test
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Locale "BE_nl" is not available for region "eu".
+     * @expectedExceptionMessage Locale "nl_BE" is not available for region "eu".
      */
     public function BadLocale()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'BE_nl'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'nl_BE'));
     }
+    
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Item ID "" invalid for BattleNet\Api\Wow\Call\Data\ItemCall.
+     */
+    public function GetItemNullItemId()
+    {
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB'));
+        
+        $client->getItem(null);
+    }
+    
+    /**
+     * @test
+     * @expectedException InvalidArgumentException
+     * @expectedExceptionMessage Item ID "test" invalid for BattleNet\Api\Wow\Call\Data\ItemCall.
+     */
+    public function GetItemNonNumericItemId()
+    {
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB'));
+        
+        $client->getItem('test');
+    }
+        
 }

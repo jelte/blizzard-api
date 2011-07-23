@@ -33,18 +33,12 @@ class StatusCall
     extends AbstractCall
 {
     /**
-     * Path for the Realm Status Call
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $_path = 'realm/status';
                 
     /**
-     * allowed query parameters
-     * 
-     * @access protected
-     * @var array
+     * {@inheritdoc}
      */
     protected $_whitelist = array('realm');
 

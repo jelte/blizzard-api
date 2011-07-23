@@ -41,10 +41,7 @@ class WowApi
     extends AbstractApi
 {
     /**
-     * set the game to WoW
-     * 
-     * @access protected
-     * @var string
+     * {@inheritdoc}
      */
     protected $game = 'wow';
     
@@ -86,7 +83,7 @@ class WowApi
      */
     public function getGuild($realm, $name, array $fields = array(), $resultAsArray = false)
     {
-        return $this->request(new GuildCall($realm, $name, $fields))->getData();
+        return $this->request(new GuildCall($realm, $name, $fields))->getData($resultAsArray);
     }
         
     /**
@@ -99,7 +96,7 @@ class WowApi
      */
     public function getRealmStatus($realm = null, $resultAsArray = false)
     {
-        return $this->request(new RealmStatusCall($realm))->getData();
+        return $this->request(new RealmStatusCall($realm))->getData($resultAsArray);
     }
 
     /**
@@ -111,7 +108,7 @@ class WowApi
      */    
     public function getRaces($resultAsArray = false)
     {
-        return $this->request(new RacesCall())->getData();
+        return $this->request(new RacesCall())->getData($resultAsArray);
     }
     
     /**
@@ -123,7 +120,7 @@ class WowApi
      */    
     public function getClasses($resultAsArray = false)
     {
-        return $this->request(new ClassesCall())->getData();
+        return $this->request(new ClassesCall())->getData($resultAsArray);
     }
         
     /**
@@ -135,6 +132,6 @@ class WowApi
      */    
     public function getItem($itemid, $resultAsArray = false)
     {
-        return $this->request(new ItemCall($itemid))->getData();
+        return $this->request(new ItemCall($itemid))->getData($resultAsArray);
     }
 }
