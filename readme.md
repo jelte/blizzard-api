@@ -18,7 +18,6 @@ Once you have added the library to your autoloader you can create a new instance
 of te WowApi class.
 
 	<?php
-	include 'sdk/WowAPI.php';
 	$wowApi = new WowApi();
 
 ### Realm Status
