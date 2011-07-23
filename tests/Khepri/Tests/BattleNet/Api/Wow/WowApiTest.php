@@ -43,7 +43,7 @@ class WowApiTest
      */
     public function GetCharacter($realm, $character)
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB'));
 
          $result = $client->getCharacter($realm, $character,array('guild'));
 

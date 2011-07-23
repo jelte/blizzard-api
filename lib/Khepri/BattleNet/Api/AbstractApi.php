@@ -46,6 +46,11 @@ abstract class AbstractApi
 	const API_URL = 'http://%s.battle.net/api/%s/';
 	
 	/**
+	 * Official WoW API URL for China
+	 */
+	const API_URL_CN = 'http://battlenet.com.%s/api/%s/';
+	
+	/**
 	 * Official structure of the API Signature
 	 */
 	const API_SIGNATURE = 'BNET %s::%s';
@@ -58,6 +63,14 @@ abstract class AbstractApi
 	 * @var string
 	 */
     protected $game;
+
+	/**
+	 * List of regions available for this api
+	 * 
+	 * @access protected
+	 * @var array
+	 */
+    protected $_regionWhitelist = array();
 	
     /**
      * Private API key
@@ -84,6 +97,14 @@ abstract class AbstractApi
 	 * @var string
 	 */
     protected $region;
+    
+    /**
+     * Locale 
+     *
+     * @access protected 
+     * @var string
+     */
+    protected $locale;
     
     /**
      * Combination of the API_URL, $region and $game.
@@ -149,7 +170,6 @@ abstract class AbstractApi
 	
 	/**
 	 * Set the region and reset the region url.
-	 * @todo ensure a valid region is selected.
 	 * 
 	 * @access public
 	 * @param string $region
@@ -157,8 +177,61 @@ abstract class AbstractApi
 	 */
 	public function setRegion($region)
 	{
+	    $this->_checkAvailabilityRegionAndLocale($region, $this->locale);
 	    $this->region = $region;
-	    $this->url = sprintf(self::API_URL, $this->region, $this->game);
+	    $this->_setApiUrl();        
+	}
+	
+	/**
+	 * When the region is China a different url structure is used
+	 * 
+	 * @access private
+	 * @return void
+	 */
+	private function _setApiUrl()
+	{
+	    $url = self::API_URL;
+	    if ( $this->region == 'cn' ) {
+            $url = self::API_URL_CN;
+	    }	
+	    $this->url = sprintf($url, $this->region, $this->game);
+	}
+
+	/**
+	 * Set the locale, the language the result should be in. 
+	 * 
+	 * @access public
+	 * @param string $locale
+	 * @return void
+	 */
+	public function setLocale($locale)
+	{
+        $this->_checkAvailabilityRegionAndLocale($this->region, $locale);
+	    $this->locale = $locale;
+	}
+	
+	/**
+	 * Ensure a valid region and locale is selected
+	 * 
+	 * @access private
+	 * @param string $region
+	 * @param string $locale
+	 * @throws ApiException
+	 * @return boolean
+	 */
+	private function _checkAvailabilityRegionAndLocale($region, $locale)
+	{
+	    if ( $region ) {
+    	    if ( !array_key_exists($region, $this->_regionWhitelist) ) {
+    	        throw new ApiException(sprintf('Region "%s" is not available.', $region));
+    	    }
+    	    if ( $locale ) {
+        	    if ( !in_array($locale, $this->_regionWhitelist[$region]) ) {
+        	        throw new ApiException(sprintf('Locale "%s" is not available for region "%s".', $locale, $region));
+        	    }
+    	    }
+	    }
+	    return true;
 	}
 	
 	/**
@@ -210,7 +283,7 @@ abstract class AbstractApi
         $url = $this->getUrl().$call->getPath();
         
         // assemble the query string
-        $queryParams = http_build_query($call->getQueryParams());
+        $queryParams = $this->_getQueryParams($call);
                 
         if ( $call->getMethod() == 'GET' ) {
             $response = $this->_getRequest($call, $url, $queryParams);    
@@ -219,6 +292,24 @@ abstract class AbstractApi
         }
                 
         return $response;        
+    }
+    
+    /**
+     * assemble the Query string.
+     * 
+     * @access protected
+     * @param AbstractCall $call
+     * @return string
+     */
+    protected function _getQueryParams(AbstractCall $call)
+    {
+        $queryParams = $call->getQueryParams();
+        
+        // Check if the locale is set
+        if ( $this->locale ) {
+            $queryParams['locale'] = $this->locale;
+        }
+        return http_build_query($queryParams); 
     }
     
     /**
