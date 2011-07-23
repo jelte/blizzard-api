@@ -53,6 +53,29 @@ This hasn't been implemented by Blizzard yet, but is in their examples already.
 
 	$wowApi->getItem($itemid);
 
+Caching
+-------
+Currently there is no caching interface included in this source. But it is supported.
+To keep depenancies low, caching interfaces will be included, but for now you can use Doctrine Caching
+
+Use Doctrine Caching
+^^^^^^^^^^^^^^^^^^^^
+to make use of the Doctrine Caching you will need to autoload doctrine-common
+and change AbstractApi:24
+
+	use Khepri\BattleNet\Cache\Cache;
+to
+	use Doctrine\Common\Cache\Cache;
+	
+Once you have changed this line you will be able to use any of the Doctrine Caching interfaces:
+
+	$cache = new \Doctrine\Common\Cache\ApcCache();
+	$wowApi = new WowApi(array('region'=>'eu', 'cache'=>$cache));
+or
+	$cache = new \Doctrine\Common\Cache\ApcCache();
+	$wowApi = new WowApi(array('region'=>'eu'));
+	$wowApi->setCache($cache);	
+
 Todo
 ----
 - Have the Api return Call specific responses. 
@@ -60,6 +83,7 @@ when calling getGuild you should get a Guild object as response.
 when calling getItem you should get a Item object as response
 - Add more error handling.
 Currently only the "correct" usage of the api is supported.
+- Add Caching interface
 - Add more unit tests
 
 Contributing Developers
