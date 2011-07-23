@@ -36,8 +36,6 @@ use Khepri\BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
- * 
- * @abstract
  */
 class WowApi
     extends AbstractApi
