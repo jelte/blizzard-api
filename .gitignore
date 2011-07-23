@@ -1,0 +1,6 @@
+/.project
+/.settings
+/.buildpath
+/build/coverage/*
+/build/logs/*
+/build/testdox/*
