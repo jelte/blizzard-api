@@ -56,17 +56,15 @@ This hasn't been implemented by Blizzard yet, but is in their examples already.
 Caching
 --------
 
-Currently there is no caching interface included in this source. But it is supported.
-To keep depenancies low, caching interfaces will be included, but for now you can use Doctrine Caching
+Cuurently we included support for the Doctrine Cache drivers.
+The required library is included as git submodule to enable them simply execute
 
-To make use of the Doctrine Caching you will need to autoload doctrine-common
-and change AbstractApi:24
+	git submodule update --init
+or download doctrine-common manually from
+	
+	https://github.com/doctrine/common 
 
-	use Khepri\BattleNet\Cache\Cache;
-to
-
-	use Doctrine\Common\Cache\Cache;
-Once you have changed this line you will be able to use any of the Doctrine Caching interfaces:
+To use the caching
 
 	$cache = new \Doctrine\Common\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu', 'cache'=>$cache));
@@ -75,6 +73,9 @@ or
 	$cache = new \Doctrine\Common\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu'));
 	$wowApi->setCache($cache);	
+	
+	
+Note: in a future release own cache implementations might be provided.
 
 Todo
 ----

@@ -21,7 +21,7 @@
 
 namespace Khepri\BattleNet\Api;
 
-use Khepri\BattleNet\Cache\Cache;
+use Doctrine\Common\Cache\Cache;
 
 /**
  * Primary API class that all children source APIs extend. Provides functionality for
