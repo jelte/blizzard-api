@@ -1,6 +1,7 @@
 <?php
 
 // Autoloading
+use BattleNet\Api\Wow\Call\Data\ItemCall;
 use Symfony\Component\ClassLoader\UniversalClassLoader;
 use BattleNet\Api\Wow\WowApi;
 
@@ -31,3 +32,7 @@ echo "achievements Completed: ".count($cagalli['achievements']['achievementsComp
 // Getting realm status
 $realms = $wowApi->getRealmStatus('Kilrogg');
 var_dump($realms->realms[0]);
+
+$characterCall = new ItemCall(1000);
+$response = $wowApi->request($characterCall);
+var_dump($response);

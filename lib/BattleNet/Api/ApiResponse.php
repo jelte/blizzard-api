@@ -42,6 +42,10 @@ class ApiResponse
      * @var string
      */
     private $url;
+    
+    private $resonseCode;
+    
+    private $responseMessage;
 
     /**
      * The HTTP response
@@ -102,6 +106,7 @@ class ApiResponse
     private function _parseHeaders(array $headers)
     {
         $this->headers = $headers;
+        $this->setResponseCode(array_shift($headers));
 
         // check each header line
         foreach ( $headers as $header ) {
@@ -114,6 +119,18 @@ class ApiResponse
                 $this->$property = $value;
             }
         }
+    }
+    
+    private function setResponseCode($responseHeader)
+    {
+        preg_match('/^(HTTP\/1\.1)( )([0-9]{3})( )(.*)$/', $responseHeader, $matches);
+        $this->resonseCode = $matches[3];
+        $this->responseMessage = $matches[5];
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;        
     }
     
     /**

@@ -8,6 +8,8 @@ This is a PHP client for Blizzard's Battle.net Web API.
 Requirements
 ------------
 * PHP 5.3
+* cURL, highly recommended. Currently not needed but to provide proper error handling
+  on the http request, cURL will need to be used, Currrent http request handling will be used as fallback.
 
 Quickstart
 ----------

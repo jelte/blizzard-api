@@ -27,6 +27,8 @@ use BattleNet\Api\Wow\Call\CharacterCall;
 use BattleNet\Api\Wow\Call\Data\ItemCall;
 use BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
 use BattleNet\Api\Wow\Call\Data\Character\RacesCall;
+use BattleNet\Api\Wow\Call\Data\Guild\PerksCall as GuildPerks;
+use BattleNet\Api\Wow\Call\Data\Guild\RewardsCall as GuildRewards;
 use BattleNet\Api\Wow\Call\GuildCall;
 use BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
 
@@ -133,5 +135,29 @@ class WowApi
     public function getItem($itemid, $resultAsArray = false)
     {
         return $this->request(new ItemCall($itemid))->getData($resultAsArray);
+    }
+        
+    /**
+     * Prepare and execute an Guild Perks call
+     * 
+     * @access public
+     * @param boolean $resultAsArray
+     * @return mixed
+     */ 
+    public function getGuildPerks($resultAsArray = false)
+    {
+        return $this->request(new GuildPerksCall())->getDate($resultAsArray);
+    }    
+        
+    /**
+     * Prepare and execute an Guild Rewards call
+     * 
+     * @access public
+     * @param boolean $resultAsArray
+     * @return mixed
+     */ 
+    public function getGuildRewards($resultAsArray = false)
+    {
+        return $this->request(new GuildRewardsCall())->getDate($resultAsArray);
     }
 }
