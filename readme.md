@@ -55,27 +55,16 @@ This hasn't been implemented by Blizzard yet, but is in their examples already.
 Caching
 --------
 
-Cuurently we included support for the Doctrine Cache drivers.
-The required library is included as git submodule to enable them simply execute
-
-	git submodule update --init
-or download doctrine-common manually from
-	
-	https://github.com/doctrine/common 
-
 To use the caching
 
-	$cache = new \Doctrine\Common\Cache\ApcCache();
+	$cache = new \BattleNet\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu', 'cache'=>$cache));
 or
 
-	$cache = new \Doctrine\Common\Cache\ApcCache();
+	$cache = new \BattleNet\Cache\ApcCache();
 	$wowApi = new WowApi(array('region'=>'eu'));
 	$wowApi->setCache($cache);	
 	
-	
-Note: in a future release own cache implementations might be provided.
-
 Todo
 ----
 
@@ -84,7 +73,6 @@ when calling getGuild you should get a Guild object as response.
 when calling getItem you should get a Item object as response
 - Add more error handling.
 Currently only the "correct" usage of the api is supported.
-- Add Caching interface
 - Add more unit tests
 
 Contributing Developers
