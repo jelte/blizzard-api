@@ -53,7 +53,7 @@ class WowApiTest
      */
     public function GetCharacter($realm, $character)
     {
-         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB'));
+         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'curl'));
 
          $result = $client->getCharacter($realm, $character,array('guild'));
 
@@ -69,7 +69,7 @@ class WowApiTest
      */
     public function GetRealmStatus($realm)
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getRealmStatus($realm);
          $this->assertObjectHasAttribute('realms',$result);
@@ -84,7 +84,7 @@ class WowApiTest
      */
     public function GetGuild($realm, $guild)
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getGuild($realm, $guild,array());
          
@@ -107,10 +107,11 @@ class WowApiTest
      */
     public function GetItem($itemId)
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getItem($itemId);
-         $this->assertNull($result);
+         $this->assertEquals($result->status,'nok');
+         $this->assertEquals($result->reason,'Invalid application permissions.');
     }
        
     /**
@@ -118,7 +119,7 @@ class WowApiTest
      */
     public function GetRaces()
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getRaces();
          $this->assertObjectHasAttribute('races',$result);
@@ -134,7 +135,7 @@ class WowApiTest
      */
     public function GetClasses()
     {
-         $client = new WowApi(array('region'=>'eu'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getClasses();
          $this->assertObjectHasAttribute('classes',$result);
@@ -151,7 +152,7 @@ class WowApiTest
      */
     public function GetClassesWithCache()
     {
-        $client = new WowApi(array('region'=>'eu'));
+        $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
         $cache = new ArrayCache();
         $cache->setNamespace('WowApi');
         $client->setCache($cache);
@@ -167,7 +168,7 @@ class WowApiTest
      */
     public function SetRegionAndLocale($region, $locale)
     {
-        $client = new WowApi(array('region'=>$region, 'locale'=>$locale));
+        $client = new WowApi(array('region'=>$region, 'locale'=>$locale, 'httpAdapter' => 'curl'));
     }
     
     /**
@@ -177,7 +178,7 @@ class WowApiTest
      */
     public function BadRegion()
     {
-        $client = new WowApi(array('region'=>'be'));
+        $client = new WowApi(array('region'=>'be', 'httpAdapter' => 'curl'));
     }
     
     /**
@@ -187,7 +188,7 @@ class WowApiTest
      */
     public function BadLocale()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'nl_BE'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'nl_BE', 'httpAdapter' => 'curl'));
     }
     
     /**
@@ -197,7 +198,7 @@ class WowApiTest
      */
     public function GetItemNullItemId()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'curl'));
         
         $client->getItem(null);
     }
@@ -209,7 +210,7 @@ class WowApiTest
      */
     public function GetItemNonNumericItemId()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'curl'));
         
         $client->getItem('test');
     }

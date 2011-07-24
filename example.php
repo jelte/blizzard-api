@@ -30,9 +30,10 @@ echo "level: ".$cagalli['level']."\n";
 echo "achievements Completed: ".count($cagalli['achievements']['achievementsCompleted'])."\n";
 
 // Getting realm status
+
 $realms = $wowApi->getRealmStatus('Kilrogg');
 var_dump($realms->realms[0]);
-
+/*
 $characterCall = new ItemCall(1000);
 $response = $wowApi->request($characterCall);
-var_dump($response);
+var_dump($response);*/

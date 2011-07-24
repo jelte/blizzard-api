@@ -21,9 +21,18 @@
 
 namespace BattleNet\Api;
 
+use BattleNet\Http\HttpException;
+
+use BattleNet\Http\Adapter\AbstractAdapter;
+
+use BattleNet\Http\Adapter\CurlAdapter;
+
+use BattleNet\Http\Adapter\FallbackAdapter;
+
 use BattleNet\Cache\Cache;
 
 use InvalidArgumentException;
+
 
 /**
  * Primary API class that all children source APIs extend. Provides functionality for
@@ -45,17 +54,17 @@ abstract class AbstractApi
 	/**
 	 * Official WoW API URL.
 	 */
-	const API_URL = 'http://%s.battle.net/api/%s/';
+	const API_URL = 'http://%s.battle.net/api/%s/%s';
 	
 	/**
 	 * Official WoW API URL for China
 	 */
-	const API_URL_CN = 'http://battlenet.com.%s/api/%s/';
+	const API_URL_CN = 'http://battlenet.com.%s/api/%s/%s';
 	
 	/**
 	 * Official structure of the API Signature
 	 */
-	const API_SIGNATURE = 'BNET %s::%s';
+	const API_SIGNATURE = 'BNET %s:%s';
     
 	/**
 	 * For which game is this API interface.
@@ -125,6 +134,11 @@ abstract class AbstractApi
     protected $_cache;
     
     /**
+     * @var AbstractAdapeter
+     */
+    protected $_httpAdapter;
+    
+    /**
      * Constructor
      * 
 	 * @access public
@@ -158,6 +172,18 @@ abstract class AbstractApi
 	    }
 	}
 	
+	public function setHttpAdapter($adapter)
+	{
+	    if ( is_string($adapter) ) {
+	        $adapterName = '\BattleNet\\Http\\Adapter\\'.ucfirst($adapter).'Adapter';
+	        $adapter = new $adapterName();
+	    } 
+	    if ( !($adapter instanceof AbstractAdapter) ) {
+	        throw new HttpException('Unknown HTTP Adapter');
+	    }
+	    $this->_httpAdapter = $adapter;
+	}
+	
 	/**
 	 * Set the cache interface
 	 * 
@@ -168,6 +194,7 @@ abstract class AbstractApi
 	public function setCache(Cache $cache)
 	{
 	    $this->_cache = $cache;
+	    $this->_httpAdapter->setCache($cache);
 	}
 	
 	/**
@@ -196,7 +223,7 @@ abstract class AbstractApi
 	    if ( $this->region == 'cn' ) {
             $url = self::API_URL_CN;
 	    }	
-	    $this->url = sprintf($url, $this->region, $this->game);
+	    $this->url = $url;
 	}
 
 	/**
@@ -260,142 +287,31 @@ abstract class AbstractApi
 	    $this->publicApiKey = $publicApiKey;
 	}
 	
-	/**
-	 * Get the base url of the API 
-	 * 
-	 * @access public
-	 * @return string
-	 */
-	public function getUrl()
+	public function request(AbstractCall $call)
 	{
-	    return $this->url;
+	    $method = $call->getMethod();
+	    $date = date(DATE_RFC2822);
+	    $url = sprintf($this->url, $this->region, $this->game, $call->getPath());
+	    
+	    $options = array();
+	    $options['headers']['User-Agent'] = self::USER_AGENT;
+	    $options['headers']['Expect'] = '';
+	    $options['headers']['Accept'] = 'application/json';
+    	$options['headers']['Content-Type'] = 'application/json';
+    	
+	    if ( $this->publicApiKey && $this->privateApiKey ) {
+	        $options['headers']['Date'] = $date;
+	        $options['headers']['Authorization'] = $this->_signRequest($method, $date, $url);
+	    }
+	    
+	    $params = $call->getQueryParams();
+	    if ( $this->locale ) {
+	        $params['locale'] = $this->locale;
+	    }	    
+	    
+	    return $this->_httpAdapter->request($method, $url, $params, $options);
 	}
-	
-	/**
-	 * Execute the Api Call
-	 * 
-	 * @access public
-	 * @param AbstractCall $call
-	 * @return ApiResponse
-	 * @throws ApiException
-	 */
-    public function request(AbstractCall $call)
-    {
-        // asssemble the url that will be called
-        $url = $this->getUrl().$call->getPath();
-        
-        // assemble the query string
-        $queryParams = $this->_getQueryParams($call);
-                
-        if ( $call->getMethod() == 'GET' ) {
-            $response = $this->_getRequest($call, $url, $queryParams);    
-        } else {
-            $response = $this->_postRequest($call, $url, $queryParams);   
-        }
-                
-        return $response;        
-    }
-    
-    /**
-     * assemble the Query string.
-     * 
-     * @access protected
-     * @param AbstractCall $call
-     * @return string
-     */
-    protected function _getQueryParams(AbstractCall $call)
-    {
-        $queryParams = $call->getQueryParams();
-        
-        // Check if the locale is set
-        if ( $this->locale ) {
-            $queryParams['locale'] = $this->locale;
-        }
-        return http_build_query($queryParams); 
-    }
-    
-    /**
-     * Execute the GET Api Call
-     * 
-     * @access private
-     * @param AbstractCall $call
-     * @param string $baseUrl
-     * @param string $queryParams
-     * @return ApiResponse
-     */
-    private function _getRequest(AbstractCall $call, $baseUrl, $queryParams)
-    {
-        // append the uri with the queryParams
-        $url = $baseUrl.'?'.$queryParams;
-        
-        // retrieve the cacheId for this url.
-        $cacheId = $this->_getCacheId($url);
-        
-        // check if this request isn't already cached
-        if ( $this->_isCached($cacheId) ) {
-            // retrieved the cached response
-            $response = $this->_fromCache($cacheId);
-        } else {
-            // build the context for the http call to the blizzard api
-            $context = $this->_buildContext($call->getMethod(), $baseUrl);
-            
-            // retrieve the data from the blizzard api
-            $rawResponse = @file_get_contents($url,false,$context);
-            
-            // build the response
-            $response = new ApiResponse($url, $http_response_header, $rawResponse);
-            
-            // cache the response
-            $this->_cache($cacheId,$response);
-        }
-        
-        return $response;
-    }
-
-    /**
-     * if in the future it might be possible to send information back to the Api (calendar accepts orso)
-     * this will probably be done through POST method.
-     * and the handling is slightly different.
-     * 
-     * @access private
-     * @param AbstractCall $call
-     * @param unknown_type $url
-     * @param unknown_type $queryParams
-     * @throws ApiException
-     */
-    private function _postRequest(AbstractCall $call, $url, $queryParams)
-    {
-        throw new ApiException('POST method not yet used/supported by Blizzard');
-    }
-    
-    /**
-     * Build the header for the http request to the Blizzard Api
-     * 
-     * @access private
-     * @param string $method
-     * @param string $url
-     * @return resource
-     */
-    private function _buildContext($method, $url)
-    {
-        // Create the basic options
-        $opts = array(
-          'http'=>array(
-            'method'=>$method,
-            'header'=>'User-Agent: '.self::USER_AGENT."\r\n"  
-          )
-        );
-
-        // if the private Api Key is set append the header with the needed signature
-        if ( $this->privateApiKey ) {
-            $date = date(DATE_RFC2822);
-            $opts['http']['header'] .= "Date: ".$date;
-            $opts['http']['header'] .= "Authorization: ".$this->_signRequest($method, $date, $url)."\r\n";
-        }  
-        
-        return stream_context_create($opts);
-    }
-    
+	        
     /**
      * Build the Authorization signature
      * 
@@ -405,66 +321,18 @@ abstract class AbstractApi
      * @param string $uri
      * @return string
      */
-    private function _signRequest($method, $date, $uri)
+    private function _signRequest($method, $date, $url)
     {
-        $signature = base64_encode(hash_hmac('sha1',$this->privateApiKey,implode("\n",func_get_args())."\n"));
-        return sprintf(self::API_SIGNATURE,$this->publicApiKey,$signature);
-    }
-    
-    /**
-     * Check if a request already exists in the cache
-     * 
-     * @access private
-     * @param string $cacheId
-     * @return boolean
-     */
-    private function _isCached($cacheId)
-    {
-        // check if a cache interface is set
-        if ( isset($this->_cache) ) {
-            return $this->_cache->contains($cacheId);
-        }
-        return false;
-    }
-    
-    /**
-     * Fetch a request from cache
-     * 
-     * @access private
-     * @param string $cacheId
-     * @return ApiResponse
-     */
-    private function _fromCache($cacheId)
-    {
-        return $this->_cache->fetch($cacheId);
-    }
-    
-    /**
-     * Save a response in the cache
-     *
-     * @access private
-     * @param string $cacheId
-     * @param ApiResponse $response
-     * @return boolean TRUE if the entry was successfully stored in the cache, FALSE otherwise.
-     */
-    private function _cache($cacheId, $response)
-    {
-        // check if a cache interface is set
-        if ( isset($this->_cache) ) {
-            return $this->_cache->save($cacheId, $response, $response->getLifeTime());
-        }
-        return false;
-    }
-    
-    /**
-     * Get the cache identifier for the $url
-     * 
-     * @access private
-     * @param string $url
-     * @return string
-     */
-    private function _getCacheId($url)
-    {
-        return md5($url);
+        $data = $method . "\n" . $date . "\n" . $url . "\n";
+        
+        $encodedData = base64_encode(hash_hmac('sha1',$this->privateApiKey,$data));
+        
+        $signature = strtr(self::API_SIGNATURE, array(
+                					'{publicApiKey}' => $this->publicApiKey,
+                					'{data}' => $encodedData
+                                )
+                            );
+        
+        return $signature;
     }
 }

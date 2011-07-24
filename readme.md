@@ -8,8 +8,11 @@ This is a PHP client for Blizzard's Battle.net Web API.
 Requirements
 ------------
 * PHP 5.3
-* cURL, highly recommended. Currently not needed but to provide proper error handling
-  on the http request, cURL will need to be used, Currrent http request handling will be used as fallback.
+
+Optional
+--------
+* cURL: Highly recommended to use the cURL Http adapter.
+* caching: It's strongly recommended to make use of Apc, Memcache or some other persistant caching system
 
 Quickstart
 ----------
@@ -70,12 +73,13 @@ or
 Todo
 ----
 
+- Add more error handling.
+Currently only the "correct" usage of the api is supported.
 - Have the Api return Call specific responses. 
 when calling getGuild you should get a Guild object as response.
 when calling getItem you should get a Item object as response
-- Add more error handling.
-Currently only the "correct" usage of the api is supported.
 - Add more unit tests
+- Document Http Adapters
 
 Contributing Developers
 -----------------------
