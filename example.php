@@ -14,10 +14,11 @@ $loader->registerNamespaces(array(
 
 $loader->register();
 
-$wowApi = new WowApi(array('region'=>'eu'));
+$wowApi = new WowApi(array('region'=>'eu','httpAdapter'=>'curl'));
 
+try {
 // Getting character as standard php class
-$khepri = $wowApi->getCharacter('Kilrogg', 'Khepri');
+$khepri = $wowApi->getCharacter('Kilrogg', 'rshdlfjahskjf');
 echo "realm: ".$khepri->realm."\n";
 echo "name: ".$khepri->name."\n";
 echo "level: ".$khepri->level."\n";
@@ -33,7 +34,10 @@ echo "achievements Completed: ".count($cagalli['achievements']['achievementsComp
 
 $realms = $wowApi->getRealmStatus('Kilrogg');
 var_dump($realms->realms[0]);
-/*
+
 $characterCall = new ItemCall(1000);
 $response = $wowApi->request($characterCall);
-var_dump($response);*/
+var_dump($response);
+} catch ( Exception $e ) {
+    var_dump($e->getMessage());
+}

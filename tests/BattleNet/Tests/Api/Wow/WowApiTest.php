@@ -104,14 +104,14 @@ class WowApiTest
      * 
      * @test
      * @dataProvider provideItemData
+     * @expectedException BattleNet\Api\ApiException
+     * @expectedExceptionMessage Invalid application permissions.
      */
     public function GetItem($itemId)
     {
          $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
 
          $result = $client->getItem($itemId);
-         $this->assertEquals($result->status,'nok');
-         $this->assertEquals($result->reason,'Invalid application permissions.');
     }
        
     /**
@@ -213,6 +213,18 @@ class WowApiTest
         $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'curl'));
         
         $client->getItem('test');
+    }
+    
+    /**
+     * @test
+     * @expectedException BattleNet\Api\Exception\NotFoundException
+     * @expectedExceptionMessage Character not found.
+     */
+    public function GetNonexistingCharacter()
+    {
+         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'curl'));
+
+         $result = $client->getCharacter('Kilrogg','DoesNotExists');
     }
         
 }

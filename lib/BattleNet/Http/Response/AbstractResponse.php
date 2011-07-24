@@ -62,6 +62,16 @@ implements ApiResponse
         return $this->headers;
     }
 
+    public function getResponseCode()
+    {
+        return $this->responseCode;
+    }
+    
+    public function getResponseMessage()
+    {
+        return $this->responseMessage;
+    }
+    
     /**
      * Get the date of the request
      *

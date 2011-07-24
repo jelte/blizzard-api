@@ -1,6 +1,12 @@
 <?php
 namespace BattleNet\Http\Adapter;
 
+use BattleNet\Api\Exception\NotFoundException;
+
+use BattleNet\Api\ApiException;
+
+use BattleNet\Http\Response\AbstractResponse;
+
 use BattleNet\Cache\Cache;
 
 use InvalidArgumentException;
@@ -39,10 +45,27 @@ abstract class AbstractAdapter
                 throw new InvalidArgumentException(sprintf('Method "%s" is not supported',$method));
                 break;
         }
-
+        
+        $this->_handleResponse($response);
+        
         return $response;
     }
 
+    protected function _handleResponse(AbstractResponse $response)
+    {
+        $httpCode = $response->getResponseCode();
+        $httpMessage = $response->getResponseMessage();
+
+        switch ( $httpCode ) {
+            case 404:
+                throw new NotFoundException($httpMessage, $httpCode);
+                break;
+            case 500:
+                throw new ApiException($httpMessage, $httpCode);
+                break;                
+        }
+    }
+    
     protected function _loadOptions($options)
     {
         foreach ( $options as $name => $value )
