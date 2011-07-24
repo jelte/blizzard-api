@@ -194,7 +194,6 @@ abstract class AbstractApi
     public function setCache(Cache $cache)
     {
         $this->_cache = $cache;
-        $this->_httpAdapter->setCache($cache);
     }
 
     /**
@@ -309,7 +308,22 @@ abstract class AbstractApi
             $params['locale'] = $this->locale;
         }
          
-        return $this->_httpAdapter->request($method, $url, $params, $options);
+        return $this->getHttpAdapter()->request($method, $url, $params, $options);
+    }
+    
+    protected function getHttpAdapter()
+    {
+        if ( !$this->_httpAdapter ) {
+            if (extension_loaded('curl')) {
+                $this->setHttpAdapter('curl');
+            } else {
+                $this->setHttpAdapter('fallback');
+            }
+        } 
+        if ( $this->_cache ) {
+            $this->_httpAdapter->setCache($this->_cache);
+        }
+        return $this->_httpAdapter;
     }
      
     /**

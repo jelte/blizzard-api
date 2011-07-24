@@ -7,9 +7,7 @@ extends AbstractResponse
      
     public function __construct($url, array $headers, $response, $responseCode, $responseMessage)
     {
-        $this->url = $url;
-        $this->headers = $headers;
-        $this->response = $response;
+        parent::__construct($url, $headers, $response);
         $this->responseCode = $responseCode;
         $this->responseMessage = $responseMessage;
         $this->_parseHeaders($headers);

@@ -2,6 +2,8 @@
 namespace BattleNet\Http\Response;
 
 use BattleNet\Api\ApiResponse;
+use DateTime;
+use DateTimeZone;
 
 abstract class AbstractResponse
 implements ApiResponse
@@ -104,7 +106,10 @@ implements ApiResponse
      */
     public function getTTL()
     {
-        return strtotime($this->expires)-time();
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone('GMT'));
+        $ttl = strtotime($this->getExpires())-$date->getTimestamp();
+        return $ttl;
     }
 
     /**

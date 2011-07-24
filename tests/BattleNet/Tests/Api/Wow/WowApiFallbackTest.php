@@ -4,7 +4,7 @@ namespace BattleNet\Tests\Api\Wow;
 use BattleNet\Api\Wow\WowApi;
 use BattleNet\Cache\ArrayCache;
 
-class WowApiTest
+class WowApiFallbackTest
     extends \PHPUnit_Framework_TestCase
 {
     public function provideRealmData() {
@@ -53,7 +53,7 @@ class WowApiTest
      */
     public function GetCharacter($realm, $character)
     {
-         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'fallback'));
 
          $result = $client->getCharacter($realm, $character,array('guild'));
 
@@ -69,7 +69,7 @@ class WowApiTest
      */
     public function GetRealmStatus($realm)
     {
-         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getRealmStatus($realm);
          $this->assertObjectHasAttribute('realms',$result);
@@ -84,7 +84,7 @@ class WowApiTest
      */
     public function GetGuild($realm, $guild)
     {
-         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getGuild($realm, $guild,array());
          
@@ -105,11 +105,11 @@ class WowApiTest
      * @test
      * @dataProvider provideItemData
      * @expectedException BattleNet\Api\ApiException
-     * @expectedExceptionMessage Invalid application permissions.
+     * @expectedExceptionMessage Internal Server Error
      */
     public function GetItem($itemId)
     {
-         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getItem($itemId);
     }
@@ -119,7 +119,7 @@ class WowApiTest
      */
     public function GetRaces()
     {
-         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getRaces();
          $this->assertObjectHasAttribute('races',$result);
@@ -135,7 +135,7 @@ class WowApiTest
      */
     public function GetClasses()
     {
-         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getClasses();
          $this->assertObjectHasAttribute('classes',$result);
@@ -152,7 +152,7 @@ class WowApiTest
      */
     public function GetClassesWithCache()
     {
-        $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
         $cache = new ArrayCache();
         $cache->setNamespace('WowApi');
         $client->setCache($cache);
@@ -168,7 +168,7 @@ class WowApiTest
      */
     public function SetRegionAndLocale($region, $locale)
     {
-        $client = new WowApi(array('region'=>$region, 'locale'=>$locale, 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>$region, 'locale'=>$locale, 'httpAdapter' => 'fallback'));
     }
     
     /**
@@ -178,7 +178,7 @@ class WowApiTest
      */
     public function BadRegion()
     {
-        $client = new WowApi(array('region'=>'be', 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>'be', 'httpAdapter' => 'fallback'));
     }
     
     /**
@@ -188,7 +188,7 @@ class WowApiTest
      */
     public function BadLocale()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'nl_BE', 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'nl_BE', 'httpAdapter' => 'fallback'));
     }
     
     /**
@@ -198,7 +198,7 @@ class WowApiTest
      */
     public function GetItemNullItemId()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'fallback'));
         
         $client->getItem(null);
     }
@@ -210,7 +210,7 @@ class WowApiTest
      */
     public function GetItemNonNumericItemId()
     {
-        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'curl'));
+        $client = new WowApi(array('region'=>'eu','locale'=>'en_GB', 'httpAdapter' => 'fallback'));
         
         $client->getItem('test');
     }
@@ -218,11 +218,11 @@ class WowApiTest
     /**
      * @test
      * @expectedException BattleNet\Api\Exception\NotFoundException
-     * @expectedExceptionMessage Character not found.
+     * @expectedExceptionMessage Not Found
      */
     public function GetNonexistingCharacter()
     {
-         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'curl'));
+         $client = new WowApi(array('region'=>'eu', 'locale'=>'en_GB', 'httpAdapter' => 'fallback'));
 
          $result = $client->getCharacter('Kilrogg','DoesNotExists');
     }
