@@ -32,7 +32,7 @@ To get a list of all realms you can use the following code.
 To get the status of a specific realm you will need to use the following code.
 The `getRealmStatus` function takes a a string as its argument. 
 
-	$api->Realm->getRealmStatus($realmname);
+	$wowApi->getRealmStatus($realmname);
 	
 ### Character Information
 To get a characters information
@@ -74,8 +74,10 @@ Todo
 ----
 
 - Have the Api return Call specific responses. 
-when calling getGuild you should get a Guild object as response.
-when calling getItem you should get a Item object as response
+When calling getGuild you should get a Guild object as response.
+When calling getItem you should get a Item object as response.
+- add TTL to Http Curl Adapter as it doesn't return an expires header.
+- add TTL ArrayCache
 - Add more unit tests
 - Document Http Adapters
 

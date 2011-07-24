@@ -145,6 +145,30 @@ class WowApiCurlTest
          $this->assertObjectHasAttribute('powerType',$result->classes[0]);
          $this->assertObjectHasAttribute('name',$result->classes[0]);
     }
+       
+    /**
+     * @test
+     */
+    public function GetGuildPerks()
+    {
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+
+         $result = $client->getGuildPerks();
+         $this->assertObjectHasAttribute('perks',$result);
+         $this->assertGreaterThanOrEqual(1,count($result->perks));
+    }
+
+    /**
+     * @test
+     */
+    public function GetGuildRewards()
+    {
+         $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'curl'));
+
+         $result = $client->getGuildRewards();
+         $this->assertObjectHasAttribute('rewards',$result);
+         $this->assertGreaterThanOrEqual(1,count($result->rewards));
+    }    
     
     /**
      * @test

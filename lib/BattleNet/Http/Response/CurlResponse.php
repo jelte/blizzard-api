@@ -4,7 +4,18 @@ namespace BattleNet\Http\Response;
 class CurlResponse
 extends AbstractResponse
 {
-     
+    /**
+     * Constructor 
+     * 
+     * @access public
+     * @param unknown_type $url
+     * @param array $headers
+     * @param unknown_type $response
+     * @param unknown_type $responseCode
+     * @param unknown_type $responseMessage
+     * @constructor
+     * @return void
+     */
     public function __construct($url, array $headers, $response, $responseCode, $responseMessage)
     {
         parent::__construct($url, $headers, $response);

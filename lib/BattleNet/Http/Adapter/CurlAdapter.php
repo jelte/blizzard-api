@@ -27,6 +27,7 @@ extends AbstractAdapter
      */
     public function __construct()
     {
+        // Check if curl extension is loaded
         if (!extension_loaded('curl')) {
             throw new HttpException('cURL extension has to be loaded to use this Http adapter.');
         }
@@ -46,7 +47,7 @@ extends AbstractAdapter
         $responseMessage = curl_error($curl);
 
         curl_close($curl);
-
+                
         return new CurlResponse($url, $headers, $response, $responseCode, $responseMessage);
     }
 }

@@ -27,8 +27,8 @@ use BattleNet\Api\Wow\Call\CharacterCall;
 use BattleNet\Api\Wow\Call\Data\ItemCall;
 use BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
 use BattleNet\Api\Wow\Call\Data\Character\RacesCall;
-use BattleNet\Api\Wow\Call\Data\Guild\PerksCall as GuildPerks;
-use BattleNet\Api\Wow\Call\Data\Guild\RewardsCall as GuildRewards;
+use BattleNet\Api\Wow\Call\Data\Guild\PerksCall as GuildPerksCall;
+use BattleNet\Api\Wow\Call\Data\Guild\RewardsCall as GuildRewardsCall;
 use BattleNet\Api\Wow\Call\GuildCall;
 use BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
 
@@ -146,7 +146,7 @@ extends AbstractApi
      */
     public function getGuildPerks($resultAsArray = false)
     {
-        return $this->request(new GuildPerksCall())->getDate($resultAsArray);
+        return $this->request(new GuildPerksCall())->getData($resultAsArray);
     }
 
     /**
@@ -158,6 +158,6 @@ extends AbstractApi
      */
     public function getGuildRewards($resultAsArray = false)
     {
-        return $this->request(new GuildRewardsCall())->getDate($resultAsArray);
+        return $this->request(new GuildRewardsCall())->getData($resultAsArray);
     }
 }

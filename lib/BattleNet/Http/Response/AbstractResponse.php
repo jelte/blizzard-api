@@ -109,6 +109,7 @@ implements ApiResponse
         $date = new DateTime();
         $date->setTimezone(new DateTimeZone('GMT'));
         $ttl = strtotime($this->getExpires())-$date->getTimestamp();
+
         return $ttl;
     }
 
