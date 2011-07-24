@@ -31,7 +31,7 @@ class ZendDataCache extends AbstractCache
     {
         $this->setNamespace('battlenet::'); // zend data cache format for namespaces ends in ::
     }
-    
+
     /**
      * {@inheritdoc}
      */

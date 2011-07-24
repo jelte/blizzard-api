@@ -26,15 +26,15 @@ namespace BattleNet\Http\Response;
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
- * 
+ *
  * @abstract
  */
 class FallbackResponse
-    extends AbstractResponse
+extends AbstractResponse
 {
     /**
      * Constructor
-     * 
+     *
      * @access public
      * @param string $url
      * @param array $headers
@@ -48,10 +48,10 @@ class FallbackResponse
 
         $this->_parseHeaders($headers);
     }
-    
+
     /**
      * Parse the lines from the response header and set properties accordingly
-     * 
+     *
      * @access private
      * @param array $headers
      * @return void
@@ -66,14 +66,14 @@ class FallbackResponse
             $parts = explode(':',$header);
             $property = trim(strtolower(array_shift($parts)));
             $value = trim(implode(':',$parts));
-            
+
             // check if this property is defined
             if ( property_exists($this, $property) ) {
                 $this->$property = $value;
             }
         }
     }
-    
+
     private function setResponseCode($responseHeader)
     {
         preg_match('/^(HTTP\/1\.1)( )([0-9]{3})( )(.*)$/', $responseHeader, $matches);

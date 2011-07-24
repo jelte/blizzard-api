@@ -40,13 +40,13 @@ use BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
  * @version		0.1.0
  */
 class WowApi
-    extends AbstractApi
+extends AbstractApi
 {
     /**
      * {@inheritdoc}
      */
     protected $game = 'wow';
-    
+
     /**
      * {@inheritdoc}
      */
@@ -56,11 +56,11 @@ class WowApi
                                         'kr' => array('ko_KR'),
                                         'tw' => array('zh_TW'),
                                         'cn' => array('zh_CN')
-                                    );
-                                        
+    );
+
     /**
      * Prepare and execute a Character call
-     * 
+     *
      * @access public
      * @param string $realm
      * @param string $name
@@ -72,10 +72,10 @@ class WowApi
     {
         return $this->request(new CharacterCall($realm, $name, $fields))->getData($resultAsArray);
     }
-    
+
     /**
      * Prepare and execute a Guild call
-     * 
+     *
      * @access public
      * @param string $realm
      * @param string $name
@@ -87,10 +87,10 @@ class WowApi
     {
         return $this->request(new GuildCall($realm, $name, $fields))->getData($resultAsArray);
     }
-        
+
     /**
      * Prepare and execute a Character call
-     * 
+     *
      * @access public
      * @param string $realm
      * @param boolean $resultAsArray
@@ -103,59 +103,59 @@ class WowApi
 
     /**
      * Prepare and execute a Races call
-     * 
+     *
      * @access public
      * @param boolean $resultAsArray
      * @return mixed
-     */    
+     */
     public function getRaces($resultAsArray = false)
     {
         return $this->request(new RacesCall())->getData($resultAsArray);
     }
-    
+
     /**
      * Prepare and execute a Classes call
-     * 
+     *
      * @access public
      * @param boolean $resultAsArray
      * @return mixed
-     */    
+     */
     public function getClasses($resultAsArray = false)
     {
         return $this->request(new ClassesCall())->getData($resultAsArray);
     }
-        
+
     /**
      * Prepare and execute an Item call
-     * 
+     *
      * @access public
      * @param boolean $resultAsArray
      * @return mixed
-     */    
+     */
     public function getItem($itemid, $resultAsArray = false)
     {
         return $this->request(new ItemCall($itemid))->getData($resultAsArray);
     }
-        
+
     /**
      * Prepare and execute an Guild Perks call
-     * 
+     *
      * @access public
      * @param boolean $resultAsArray
      * @return mixed
-     */ 
+     */
     public function getGuildPerks($resultAsArray = false)
     {
         return $this->request(new GuildPerksCall())->getDate($resultAsArray);
-    }    
-        
+    }
+
     /**
      * Prepare and execute an Guild Rewards call
-     * 
+     *
      * @access public
      * @param boolean $resultAsArray
      * @return mixed
-     */ 
+     */
     public function getGuildRewards($resultAsArray = false)
     {
         return $this->request(new GuildRewardsCall())->getDate($resultAsArray);

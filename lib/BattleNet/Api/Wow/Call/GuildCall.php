@@ -31,49 +31,49 @@ use BattleNet\Api\AbstractCall;
  * @version		0.1.0
  */
 class GuildCall
-    extends AbstractCall
+extends AbstractCall
 {
     /**
      * {@inheritdoc}
      */
     protected $_path = 'guild/{realm}/{name}';
-        
+
     /**
      * name of the realm
-     * 
+     *
      * @access protected
      * @var string
      */
     protected $realm;
-    
+
     /**
      * name of the guild
-     * 
+     *
      * @access protected
      * @var string
      */
     protected $name;
-        
+
     /**
      * allowed query parameters
-     * 
+     *
      * @access protected
      * @var array
      */
     protected $_whitelist = array('fields');
-    
+
     /**
      * allowed fields parameters
-     * 
-	 * @access protected
+     *
+     * @access protected
      * @var array
      * @see http://blizzard.github.com/api-wow-docs/#id3526372
      */
     protected $_fieldsWhitelist = array('members','achievements');
-    
+
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param $realm
      * @param $name
      * @param $fields
@@ -86,7 +86,7 @@ class GuildCall
         $this->setName($name);
         $this->setFields($fields);
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -94,13 +94,13 @@ class GuildCall
     {
         $path = str_replace('{realm}',$this->realm, $this->_path);
         $path = str_replace('{name}',$this->name, $path);
-        
+
         return $path;
     }
-    
+
     /**
      * Filter and set the realm name
-     * 
+     *
      * @access public
      * @param $realm
      * @return void
@@ -109,10 +109,10 @@ class GuildCall
     {
         $this->realm = $this->filterQueryParamValue($realm);
     }
-            
+
     /**
      * Filter and set the guild name
-     * 
+     *
      * @access public
      * @param $name
      * @return void
@@ -121,10 +121,10 @@ class GuildCall
     {
         $this->name = $this->filterQueryParamValue($name);
     }
-    
+
     /**
      * Set the additional fields
-     * 
+     *
      * @access public
      * @param $fields
      * @return void
@@ -135,7 +135,7 @@ class GuildCall
         foreach ( $fields as $field ) {
             if ( !in_array($field, $this->_fieldsWhitelist) ) {
                 throw new ApiException(sprintf('Field option "%s" not recognized.',$field));
-            }                
+            }
         }
         $this->setQueryParam('fields',$fields);
     }

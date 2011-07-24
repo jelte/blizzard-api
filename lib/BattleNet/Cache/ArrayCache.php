@@ -68,7 +68,7 @@ class ArrayCache extends AbstractCache
     protected function _doDelete($id)
     {
         unset($this->data[$id]);
-        
+
         return true;
     }
 }

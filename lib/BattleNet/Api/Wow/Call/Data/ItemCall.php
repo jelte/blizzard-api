@@ -31,24 +31,24 @@ use InvalidArgumentException;
  * @version		0.1.0
  */
 class ItemCall
-    extends AbstractCall
+extends AbstractCall
 {
     /**
      * {@inheritdoc}
      */
     protected $_path = 'data/item/{itemid}';
-    
+
     /**
      * Id of the requested item
-     * 
+     *
      * @access protected
      * @var integer
      */
     protected $itemid;
-    
+
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @access public
      * @param integer $itemid
      * @return void
@@ -65,10 +65,10 @@ class ItemCall
     {
         return str_replace('{itemid}',$this->itemid, $this->_path);
     }
-    
+
     /**
      * Set the itemid
-     * 
+     *
      * @access public
      * @param $itemid
      * @throws ApiException when the itemid is empty or not numeric
@@ -76,8 +76,8 @@ class ItemCall
     public function setItemid($itemid)
     {
         if (empty($itemid) || !is_numeric($itemid)) {
-			throw new InvalidArgumentException(sprintf('Item ID "%s" invalid for %s.', $itemid, __CLASS__));
-		}
+            throw new InvalidArgumentException(sprintf('Item ID "%s" invalid for %s.', $itemid, __CLASS__));
+        }
         $this->itemid = $itemid;
     }
 }

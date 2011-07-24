@@ -27,21 +27,21 @@ namespace BattleNet\Api;
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
- * 
+ *
  * @abstract
  */
 abstract class AbstractCall
 {
     /**
      * HTTP Method used for this call
-     * 
+     *
      * @access protected
      * @var string
      */
     protected $_method = 'GET';
-    
+
     /**
-     * Path 
+     * Path
      * @access protected
      * @var string
      */
@@ -49,24 +49,24 @@ abstract class AbstractCall
 
     /**
      * Storage for the query parameters
-     * 
+     *
      * @access protected
      * @var array
      */
     protected $_queryParameters = array();
-    
+
     /**
      * Definition of the allowed query paramenters
-     * 
+     *
      * @access protected
      * @var array
      */
     protected $_whitelist = array();
-    
+
     /**
      * Get the Path.
      * Path variable will be replaces on call.
-     * 
+     *
      * @access public
      * @return string
      */
@@ -74,10 +74,10 @@ abstract class AbstractCall
     {
         return $this->_path;
     }
-    
+
     /**
      * get the Query parameters
-     * 
+     *
      * @access public
      * @return array
      */
@@ -85,10 +85,10 @@ abstract class AbstractCall
     {
         return $this->_queryParameters;
     }
-    
+
     /**
      * set a query parameter
-     * 
+     *
      * @access public
      * @param string $name
      * @param mixed $value
@@ -100,12 +100,12 @@ abstract class AbstractCall
         if ( !in_array($name, $this->_whitelist) ) {
             throw new ApiException(sprintf('Query parameter "%s" not recognized.',$name));
         }
-        $this->_queryParameters[$name] = $this->filterQueryParamValue($value);    
+        $this->_queryParameters[$name] = $this->filterQueryParamValue($value);
     }
-    
+
     /**
      * Get the method
-     * 
+     *
      * @access public
      * @return string
      */
@@ -113,12 +113,12 @@ abstract class AbstractCall
     {
         return $this->_method;
     }
-    
+
     /**
-     * Filters the query parameter values, 
+     * Filters the query parameter values,
      * if the value is an array the each value of the array will be filtered and then implode seperated by a ,
-     * the value will be url encoded according to blizzard usage 
-     * 
+     * the value will be url encoded according to blizzard usage
+     *
      * @access protected
      * @param mixed $value
      * @return string
@@ -129,7 +129,7 @@ abstract class AbstractCall
             foreach ( $value as $key => $val ) {
                 $value[$key] = $this->filterQueryParamValue($val);
             }
-            $value = implode(',',$value);            
+            $value = implode(',',$value);
         }
         return rawurlencode($value);
     }

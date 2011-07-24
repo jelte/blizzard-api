@@ -30,7 +30,7 @@ use BattleNet\Api\AbstractCall;
  * @version		0.1.0
  */
 class RacesCall
-    extends AbstractCall
+extends AbstractCall
 {
     /**
      * {@inheritdoc}

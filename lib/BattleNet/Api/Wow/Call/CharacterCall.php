@@ -32,48 +32,48 @@ use BattleNet\Api\AbstractCall;
  * @version		0.1.0
  */
 class CharacterCall
-    extends AbstractCall
+extends AbstractCall
 {
     /**
      * {@inheritdoc}
      */
     protected $_path = 'character/{realm}/{name}';
-            
+
     /**
      * name of the realm
-     * 
+     *
      * @access protected
      * @var string
      */
     protected $realm;
-    
+
     /**
      * name of the guild
-     * 
+     *
      * @access protected
      * @var string
      */
     protected $name;
-            
+
     /**
      * {@inheritdoc}
      */
     protected $_whitelist = array('fields');
-    
+
     /**
      * allowed fields parameters
-     * 
-	 * @access protected
+     *
+     * @access protected
      * @var array
      * @see http://blizzard.github.com/api-wow-docs/#id3525224
      */
     protected $_fieldsWhitelist = array('guild','stats','talents','items','reputation','titles',
     									'professions','appearance','companions','mounts','pets',
     									'achievements','progression');
-    
+
     /**
-     * Constructor 
-     * 
+     * Constructor
+     *
      * @param $realm
      * @param $name
      * @param $fields
@@ -86,21 +86,21 @@ class CharacterCall
         $this->setName($name);
         $this->setFields($fields);
     }
-    
-	/**
+
+    /**
      * {@inheritdoc}
      */
     public function getPath()
     {
         $path = str_replace('{realm}',$this->realm, $this->_path);
         $path = str_replace('{name}',$this->name, $path);
-        
+
         return $path;
     }
 
     /**
      * Filter and set the realm name
-     * 
+     *
      * @access public
      * @param $realm
      * @return void
@@ -109,10 +109,10 @@ class CharacterCall
     {
         $this->realm = $this->filterQueryParamValue($realm);
     }
-        
+
     /**
      * Filter and set the guild name
-     * 
+     *
      * @access public
      * @param $name
      * @return void
@@ -121,10 +121,10 @@ class CharacterCall
     {
         $this->name = $this->filterQueryParamValue($name);
     }
-        
+
     /**
      * Set the additional fields
-     * 
+     *
      * @access public
      * @param $fields
      * @return void
@@ -135,7 +135,7 @@ class CharacterCall
         foreach ( $fields as $field ) {
             if ( !in_array($field, $this->_fieldsWhitelist) ) {
                 throw new ApiException(sprintf('Field option "%s" not recognized.',$field));
-            }                
+            }
         }
         $this->setQueryParam('fields',$fields);
     }

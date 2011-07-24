@@ -29,7 +29,7 @@ interface Cache
 {
     /**
      * Fetches an entry from the cache.
-     * 
+     *
      * @param string
      * @return string
      */
@@ -55,7 +55,7 @@ interface Cache
 
     /**
      * Deletes a cache entry.
-     * 
+     *
      * @param string
      * @return boolean
      */

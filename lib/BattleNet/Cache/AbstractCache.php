@@ -29,8 +29,8 @@ namespace BattleNet\Cache;
 abstract class AbstractCache implements Cache
 {
     /**
-     * @access private 
-     * @var string The namespace to prefix all cache ids with 
+     * @access private
+     * @var string The namespace to prefix all cache ids with
      */
     private $_namespace = '';
 

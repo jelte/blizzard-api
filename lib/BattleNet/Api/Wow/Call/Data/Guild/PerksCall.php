@@ -19,21 +19,21 @@
  * THE SOFTWARE.
  */
 
-namespace BattleNet\Api\Wow\Call\Data\Character;
+namespace BattleNet\Api\Wow\Call\Data\Guild;
 
 use BattleNet\Api\AbstractCall;
 
 /**
- * Call for the WoW Data Character Classes Api
+ * Call for the WoW Data Character Races Api
  *
  * @author 		Jelte Steijaert <jelte AT 4tueel DOT be>
  * @version		0.1.0
  */
-class ClassesCall
+class PerksCall
 extends AbstractCall
 {
     /**
      * {@inheritdoc}
      */
-    protected $_path = 'data/character/classes';
+    protected $_path = 'data/guild/perks';
 }

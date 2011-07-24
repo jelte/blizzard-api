@@ -30,13 +30,13 @@ use BattleNet\Api\AbstractCall;
  * @version		0.1.0
  */
 class StatusCall
-    extends AbstractCall
+extends AbstractCall
 {
     /**
      * {@inheritdoc}
      */
     protected $_path = 'realm/status';
-                
+
     /**
      * {@inheritdoc}
      */
@@ -44,7 +44,7 @@ class StatusCall
 
     /**
      * Constructor
-     * 
+     *
      * @access public
      * @param string $realm
      * @return void
@@ -54,10 +54,10 @@ class StatusCall
     {
         $this->setRealm($realm);
     }
-    
+
     /**
      * Set the realm name
-     * 
+     *
      * @access public
      * @param string $realm
      * @return void
@@ -66,5 +66,5 @@ class StatusCall
     {
         $this->setQueryParam('realm', $realm);
     }
-    
+
 }
