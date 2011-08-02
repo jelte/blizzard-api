@@ -23,7 +23,19 @@ Once you have added the library to your autoloader you can create a new instance
 of te WowApi class.
 
 	<?php
+	$wowApi = new WowApi(array('region'=>'eu', 
+							   'locale'=>'en_GB',
+							   ['publicApiKey' =>'<YOUR-KEY>', 
+							   'privateApiKey'=>'<YOUR-KEY>']
+							   ));
+or
+	
 	$wowApi = new WowApi();
+	$wowApi->setRegion('us');
+	$wowApi->setLocale('en_US');
+	$wowApi->setPublicApiKey('<YOUR-KEY>');
+	$wowApi->setPrivateApiKey('<YOUR-KEY>');
+Note: Most calls have been tested with Api-keys.
 
 ### Realm Status
 To get a list of all realms you can use the following code.
