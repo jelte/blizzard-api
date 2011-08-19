@@ -21,14 +21,20 @@
 
 namespace BattleNet\Api\Wow;
 
+use BattleNet\Api\Wow\Call\QuestCall;
+
+use BattleNet\Api\Wow\Call\ArenaCall;
+
 use BattleNet\Api\AbstractApi;
 
 use BattleNet\Api\Wow\Call\CharacterCall;
 use BattleNet\Api\Wow\Call\ItemCall;
 use BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
 use BattleNet\Api\Wow\Call\Data\Character\RacesCall;
+use BattleNet\Api\Wow\Call\Data\Character\AchievementsCall as CharacterAchievementsCall;
 use BattleNet\Api\Wow\Call\Data\Guild\PerksCall as GuildPerksCall;
 use BattleNet\Api\Wow\Call\Data\Guild\RewardsCall as GuildRewardsCall;
+use BattleNet\Api\Wow\Call\Data\Guild\AchievementsCall as GuildAchievementsCall;
 use BattleNet\Api\Wow\Call\GuildCall;
 use BattleNet\Api\Wow\Call\Realm\StatusCall as RealmStatusCall;
 
@@ -126,6 +132,18 @@ extends AbstractApi
     }
 
     /**
+     * Prepare and execute an Guild Achievements call
+     *
+     * @access public
+     * @param boolean $resultAsArray
+     * @return mixed
+     */
+    public function getCharacterAchievements($resultAsArray = false)
+    {
+        return $this->request(new CharacterAchievementsCall())->getData($resultAsArray);
+    }
+
+    /**
      * Prepare and execute an Item call
      *
      * @access public
@@ -135,6 +153,19 @@ extends AbstractApi
     public function getItem($itemid, $resultAsArray = false)
     {
         return $this->request(new ItemCall($itemid))->getData($resultAsArray);
+    }
+
+
+    /**
+     * Prepare and execute an Guild Achievements call
+     *
+     * @access public
+     * @param boolean $resultAsArray
+     * @return mixed
+     */
+    public function getGuildAchievements($resultAsArray = false)
+    {
+        return $this->request(new GuildAchievementsCall())->getData($resultAsArray);
     }
 
     /**
@@ -160,4 +191,30 @@ extends AbstractApi
     {
         return $this->request(new GuildRewardsCall())->getData($resultAsArray);
     }
+    
+    /**
+     * Prepare and execute an Arena Team call
+     * 
+     * @param string $realm
+     * @param string $size
+     * @param string $name
+     * @param boolean $resultAsArray
+     * @return mixed
+     */
+    public function getArenaTeam($realm, $size, $name, $resultAsArray = false)
+    {
+        return $this->request(new ArenaCall($realm, $size, $name))->getData($resultAsArray);
+    }
+
+    /**
+     * Prepare and execute an Quest call
+     *
+     * @access public
+     * @param boolean $resultAsArray
+     * @return mixed
+     */
+    public function getQuest($questid, $resultAsArray = false)
+    {
+        return $this->request(new QuestCall($questid))->getData($resultAsArray);
+    }    
 }

@@ -30,6 +30,19 @@ class WowApiCurlTest
                 );
     }
     
+    public function provideArenaTeamData()
+    {
+        return array(
+                    array('Bonechewer','2v2','Samurai Jack')
+               );
+    }
+       
+    public function provideQuestData() {
+        return array(
+                    array(25)
+                );
+    }
+    
     public function provideItemData() {
         return array(
                     array(71053),
@@ -248,5 +261,51 @@ class WowApiCurlTest
 
          $result = $client->getCharacter('Kilrogg','DoesNotExists');
     }
+    
+    /**
+     * @test
+     */
+    public function GetCharacterAchievements()
+    {
+         $client = new WowApi(array('region'=>'us', 'httpAdapter' => 'curl'));
+
+         $result = $client->getCharacterAchievements();
+    }
+           
+    /**
+     * @test
+     */
+    public function GetGuildAchievements()
+    {
+         $client = new WowApi(array('region'=>'us', 'httpAdapter' => 'curl'));
+
+         $result = $client->getGuildAchievements();
+    }
+   
+    
+    /**
+     * @test
+     * @dataProvider provideArenaTeamData
+     */
+    public function GetArenaTeam($realm, $size, $name)
+    {
+         $client = new WowApi(array('region'=>'us', 'httpAdapter' => 'curl'));
+
+         $result = $client->getArenaTeam($realm, $size, $name);
+         
+         $this->assertObjectHasAttribute('name',$result);
+    }
         
+    /**
+     * @test
+     * @dataProvider provideQuestData
+     */
+    public function GetQuest($questId)
+    {
+         $client = new WowApi(array('region'=>'us', 'httpAdapter' => 'curl'));
+
+         $result = $client->getQuest($questId);
+         
+         $this->assertObjectHasAttribute('title',$result);
+    }
 }
