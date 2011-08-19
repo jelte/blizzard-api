@@ -24,7 +24,7 @@ namespace BattleNet\Api\Wow;
 use BattleNet\Api\AbstractApi;
 
 use BattleNet\Api\Wow\Call\CharacterCall;
-use BattleNet\Api\Wow\Call\Data\ItemCall;
+use BattleNet\Api\Wow\Call\ItemCall;
 use BattleNet\Api\Wow\Call\Data\Character\ClassesCall;
 use BattleNet\Api\Wow\Call\Data\Character\RacesCall;
 use BattleNet\Api\Wow\Call\Data\Guild\PerksCall as GuildPerksCall;

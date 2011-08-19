@@ -98,20 +98,16 @@ class WowApiFallbackTest
          $this->assertEquals($realm, $result->realm);
     }   
     
-    /**
-     * The functionality to request item information isn't available yet.
-     * Thus we simple check if the result is null. This way when they enable it this test will fail.
-     * 
+    /** 
      * @test
      * @dataProvider provideItemData
-     * @expectedException BattleNet\Api\ApiException
-     * @expectedExceptionMessage Internal Server Error
      */
     public function GetItem($itemId)
     {
          $client = new WowApi(array('region'=>'eu', 'httpAdapter' => 'fallback'));
 
          $result = $client->getItem($itemId);
+         $this->assertObjectHasAttribute('name',$result);
     }
        
     /**
@@ -194,7 +190,7 @@ class WowApiFallbackTest
     /**
      * @test
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Item ID "" invalid for BattleNet\Api\Wow\Call\Data\ItemCall.
+     * @expectedExceptionMessage Item ID "" invalid for BattleNet\Api\Wow\Call\ItemCall.
      */
     public function GetItemNullItemId()
     {
@@ -206,7 +202,7 @@ class WowApiFallbackTest
     /**
      * @test
      * @expectedException InvalidArgumentException
-     * @expectedExceptionMessage Item ID "test" invalid for BattleNet\Api\Wow\Call\Data\ItemCall.
+     * @expectedExceptionMessage Item ID "test" invalid for BattleNet\Api\Wow\Call\ItemCall.
      */
     public function GetItemNonNumericItemId()
     {
