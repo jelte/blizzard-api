@@ -69,7 +69,7 @@ extends AbstractCall
      */
     protected $_fieldsWhitelist = array('guild','stats','talents','items','reputation','titles',
     									'professions','appearance','companions','mounts','pets',
-    									'achievements','progression');
+    									'achievements','progression','quests');
 
     /**
      * Constructor
